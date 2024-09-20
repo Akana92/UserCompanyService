@@ -50,16 +50,15 @@ This microservice manages company data and interacts with the `user-service` to 
 2. **Build the project:**: mvn clean package
 3. **Run the project with Docker:**: docker-compose up --build
 
-Access the services:
-user-service: http://localhost:8081/users
-company-service: http://localhost:8083/companies
+### Access the services:
+- **user-service**: http://localhost:8081/users
+- **company-service**: http://localhost:8083/companies
 
-H2 Database Console Access:
-user-service H2 Console: http://localhost:8081/h2-console
-company-service H2 Console: http://localhost:8083/h2-console
-
-JDBC URL: jdbc:h2:mem:userdb (for user-service)
-JDBC URL: jdbc:h2:mem:companydb (for company-service)
-Username: sa
-Password: 
+### H2 Database Console Access:
+- **user-service H2 Console**: http://localhost:8081/h2-console
+- **company-service H2 Console**: http://localhost:8083/h2-console
+- **JDBC URL**: jdbc:h2:mem:userdb (for user-service)
+- **JDBC URL**: jdbc:h2:mem:companydb (for company-service)
+- **Username**: sa
+- **Password**:
 
