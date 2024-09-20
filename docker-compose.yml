@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  user-service:
+    build:
+      context: ./user-service # Путь к проекту User-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:userdb
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: ""
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      SPRING_DATASOURCE_INITIALIZATION_MODE: always
+    networks:
+      - app-network
+    volumes:
+      - ./user-service/src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql # Подключаем SQL файл для user-service
+
+  company-service:
+    build:
+      context: ./company-service # Путь к проекту Company-service
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      - user-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:companydb
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: ""
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      SPRING_DATASOURCE_INITIALIZATION_MODE: always
+      USER_SERVICE_URL: http://user-service:8081
+    networks:
+      - app-network
+    volumes:
+      - ./company-service/src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql # Подключаем SQL файл для company-service
+
+networks:
+  app-network:
+    driver: bridge
